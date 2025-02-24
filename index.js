@@ -1,23 +1,33 @@
 function minMax(arr) {
   return myReduce(
     arr,
-    (acc, val) => {
-      return [val < acc[0] ? val : acc[0], val > acc[1] ? val : acc[1]];
-    },
+    (acc, val) =>
+      [val < acc[0] ? val : acc[0], val > acc[1] ? val : acc[1]],
     [arr[0], arr[0]]
   );
-}
 
+}
 function myReduce(array, callback, initialValue) {
   let accumulator = initialValue !== undefined ? initialValue : array[0];
   let startIndex = initialValue !== undefined ? 0 : 1;
 
-  for (let i = startIndex; i < array.length; i++) {
-    accumulator = callback(accumulator, array[i]);
+  for (let i = startIndex; i < array.length; i++) {   
+    accumulator = callback(accumulator, array[i], i, array);
   }
-
   return accumulator;
 }
+
+
+function minMax(arr) {
+  return myReduce(
+    arr,
+    (acc, val) => [val < acc[0] ? val : acc[0], val > acc[1] ? val : acc[1]],
+    [arr[0], arr[0]]
+  );
+}
+
+console.log(minMax([3, 1, 7, 5, 9, 2])); // Output: [1, 9]
+
 
 const strings = ["uiui", "Jio", "000", "Triangle", "MORNING", ""];
 const numbers = [-90, 0, 89.89, 2300];
