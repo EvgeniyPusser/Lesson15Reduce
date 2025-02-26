@@ -1,53 +1,44 @@
+// Description: Implement the `myReduce` function which works like the native `Array.prototype.reduce` method.
+// The `myReduce` function will reduce an array into a single value, from left to right, using a callback function.
+
+const minMaxReducer = (acc, val) => [
+  val < acc[0] ? val : acc[0], // Update min
+  val > acc[1] ? val : acc[1], // Update max
+];
+
 const minMax = (arr) =>
   !Array.isArray(arr) || arr.length === 0
     ? [undefined, undefined]
-    : myReduce(
-        arr,
-        (acc, val) => [
-          val !== undefined && val < acc[0] ? val : acc[0],
-          val !== undefined && val > acc[1] ? val : acc[1],
-        ],
-        [arr[0], arr[0]]
-      );
+    : myReduce(arr, minMaxReducer, [arr[0], arr[0]]);
 
 function myReduce(array, callback, initialValue) {
-  let accumulator = initialValue !== undefined ? initialValue : array[0];
-  let startIndex = initialValue !== undefined ? 0 : 1;
-
-  for (let i = startIndex; i < array.length; i++) {
+  let accumulator = initialValue;
+  for (let i = 0; i < array.length; i++) {
     accumulator = callback(accumulator, array[i], i, array);
   }
   return accumulator;
 }
 
-// ✅ Corrected test cases
-console.log(myReduce([1, 2, 3, 4, 5], (acc, val) => acc + val, 0)); // Output: 15 (sum of all elements)
-
-console.log(minMax([3, 1, 7, 5, 9, 2])); // Output: [1, 9]
-
-const strings = ["uiui", "Jio", "000", "Triangle", "MORNING", ""];
-const numbers = [-90, 0, 89.89, 2300];
-
+// ✅ Test Cases
+console.log(myReduce([3, 1, 7, 5, 9, 2], minMaxReducer, [Infinity, -Infinity])); // [1, 9]
 console.log(
-  `Original Array: ${numbers} gives min and max as ${minMax(
-    numbers
-  )} minMax[0]===-90 minMax[1]===2300`
-);
-console.log(
-  `Original Array: ${strings} gives min and max as ${minMax(
-    strings
-  )} minMax[0]==="" minMax[1]==="uiui"`
-);
+  myReduce([-10, -5, 0, 20, 100], minMaxReducer, [Infinity, -Infinity])
+); // [-10, 100]
+console.log(myReduce([5], minMaxReducer, [Infinity, -Infinity])); // [5, 5]
+console.log(myReduce([], minMaxReducer, [Infinity, -Infinity])); // [Infinity, -Infinity] (or change to [undefined, undefined])
 
+console.log(myReduce([3, 1, 7, 5, 9, 2], minMaxReducer, [3, 3])); // [1, 9]
+console.log(myReduce([-10, -5, 0, 20, 100], minMaxReducer, [-10, -10])); // [-10, 100]
+let numbers = [1, 2, 3, 4, 5];
+let strings = ["uiui", "Jio", "000", "Triangle", "MORNING", ""];
 console.log(myReduce(numbers, (acc, val) => acc + val, 0)); // Output: sum of numbers
+console.log(myReduce(strings, (acc, val) => acc + val, "")); // Output: sum of strings
 
 console.log(minMax(numbers)); // Output: [-90, 2300]
 
 console.log(minMax(strings)); // Output: ["", "uiui"]
 
 console.log(myReduce([1, 2, 3, 4, 5], (acc, val) => acc + val, 0)); // Output: 15 (sum of all elements)
-//console.log(myReduce([-1, 2, -3, 4, 5], minMax(), 8)); // Output: 15 (sum of all elements)
-// console.log(myReduce([-1, 2, -3, 4, 5], minMax(), 0));
 
 console.log(minMax([3, 1, 7, 5, 9, 2])); // Output: [1, 9]
 
