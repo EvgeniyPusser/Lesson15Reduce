@@ -1,0 +1,23 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.item {
+  font-size: 2rem;
+}
+
+.item_failed {
+  color: red
+}
+
+.item_passed {
+  color: green
+}
+
+h1 {
+  text-align: center;
+  font-size: larger;
+}
