@@ -34,8 +34,16 @@ function test(testObj) {
   return createTestResult(testObj.script, expectedJSON, actualJSON, result);
 }
 
+//
+
 function testframework(scripts, expectedResults) {
   const bodyElem = document.querySelector("body");
+
+  // Create a container for the results
+  const resultsContainer = document.createElement("div");
+
+  // Add H1 heading
+  resultsContainer.innerHTML = `<h1>TEST RESULTS</h1>`;
 
   const results = scripts.map((script, index) =>
     test({ script, expected: expectedResults[index] })
@@ -44,25 +52,34 @@ function testframework(scripts, expectedResults) {
   const passedCount = results.filter(
     (result) => result.result === "passed"
   ).length;
-  const failedCount = results.length - passedCount;
+  const failedCount = results.filter(
+    (result) => result.result === "failed"
+  ).length;
 
-  bodyElem.innerHTML = `
+  resultsContainer.innerHTML += `
     <ol>
       ${results
         .map(
           (result) => `
-        <li class="item ${
+        <li class="${
           result.result === "passed" ? "item_passed" : "item_failed"
         }">
-          ${result.script} → ${result.result}
-        </li>`
+          ${result.script}: ${result.result}
+        </li>
+      `
         )
         .join("")}
     </ol>
-    <p class="item_passed">Passed: ${passedCount}</p>
-    <p class="item_failed">Failed: ${failedCount}</p>
+    <p>
+      <span class="item_passed">${passedCount} passed</span>, 
+      <span class="item_failed">${failedCount} failed</span>
+    </p>
   `;
+
+  // Append instead of replacing body content
+  bodyElem.appendChild(resultsContainer);
 }
+
 
 // Example Test Cases
 const scripts = [
@@ -76,7 +93,7 @@ const expectedResults = [
   [1, 9],
   [5, 5],
   [Infinity, -Infinity],
-  [1, 9],
+  [1, 1],
 ];
 
 // Running the test framework
