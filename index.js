@@ -36,49 +36,75 @@ function test(testObj) {
 
 //
 
+// function testframework(scripts, expectedResults) {
+//   const bodyElem = document.querySelector("body");
+
+//   // Create a container for the results
+//   const resultsContainer = document.createElement("div");
+
+//   // Add H1 heading
+//   resultsContainer.innerHTML = `<h1>TEST RESULTS</h1>`;
+
+//   const results = scripts.map((script, index) =>
+//     test({ script, expected: expectedResults[index] })
+//   );
+
+  // const passedCount = results.filter(
+  //   (result) => result.result === "passed"
+  // ).length;
+  // const failedCount = results.filter(
+  //   (result) => result.result === "failed"
+  // ).length;
+
+  // Replace this part:
+//
+
 function testframework(scripts, expectedResults) {
+  // Initialize body element
   const bodyElem = document.querySelector("body");
 
-  // Create a container for the results
-  const resultsContainer = document.createElement("div");
-
-  // Add H1 heading
-  resultsContainer.innerHTML = `<h1>TEST RESULTS</h1>`;
-
+  // Run tests and get results
   const results = scripts.map((script, index) =>
     test({ script, expected: expectedResults[index] })
   );
 
-  const passedCount = results.filter(
-    (result) => result.result === "passed"
-  ).length;
-  const failedCount = results.filter(
-    (result) => result.result === "failed"
-  ).length;
+  // Count passed and failed tests using reduce with ternary operator
+  const { passed, failed } = results.reduce(
+    (acc, result) => ({
+      passed: result.result === "passed" ? acc.passed + 1 : acc.passed,
+      failed: result.result === "failed" ? acc.failed + 1 : acc.failed,
+    }),
+    { passed: 0, failed: 0 }
+  );
 
-  resultsContainer.innerHTML += `
-    <ol>
-      ${results
-        .map(
-          (result) => `
-        <li class="${
-          result.result === "passed" ? "item_passed" : "item_failed"
-        }">
-          ${result.script}: ${result.result}
-        </li>
-      `
-        )
-        .join("")}
-    </ol>
-    <p>
-      <span class="item_passed">${passedCount} passed</span>, 
-      <span class="item_failed">${failedCount} failed</span>
-    </p>
+  // Set the innerHTML of the body to show results with color coding
+  bodyElem.innerHTML = `
+    <div class="test-container">
+      <h1>Test Results</h1>
+      <ol>
+        ${results
+          .map(
+            (result) => `
+          <li class="${
+            result.result === "passed" ? "item_passed" : "item_failed"
+          }">
+            ${result.script}: ${result.result}
+          </li>
+        `
+          )
+          .join("")}
+      </ol>
+      <div class="summary">
+        <p class="summary_text">
+          <span class="item_passed">${passed} passed</span>, 
+          <span class="item_failed">${failed} failed</span>
+        </p>
+      </div>
+    </div>
   `;
-
-  // Append instead of replacing body content
-  bodyElem.appendChild(resultsContainer);
 }
+
+
 
 
 // Example Test Cases
