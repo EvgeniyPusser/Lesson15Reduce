@@ -3,18 +3,18 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f4f4f4;
+  background-color: #7573f4;
     /* Light background */
     padding: 0 20px;
 }
 
 .test-container {
   text-align: center;
-  padding: 30px;
-  border: 2px solid #ccc;
+  padding: 50px;
+    border: 2px solid #cccccc;
     border-radius: 8px;
-    background-color: white;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    background-color: rgb(198, 201, 185);
+      box-shadow: 0 0 15px rgba(244, 241, 241, 0.1);
   width: 100%;
   max-width: 600px;
 }
@@ -46,11 +46,16 @@ ol li {
 
 .summary {
   font-size: 1.2rem;
-  margin-top: 20px;
+  margin-top: 40px;
   font-weight: bold;
 }
 
 .summary_text {
   font-size: 1.3rem;
   font-weight: bold;
+}
+.item_failed:hover {
+  color: rgb(255, 0, 217);
+  cursor: pointer;
+  font-size: 65px;
 }
