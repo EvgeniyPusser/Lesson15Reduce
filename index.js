@@ -34,41 +34,16 @@ function test(testObj) {
   return createTestResult(testObj.script, expectedJSON, actualJSON, result);
 }
 
-//
 
-// function testframework(scripts, expectedResults) {
-//   const bodyElem = document.querySelector("body");
-
-//   // Create a container for the results
-//   const resultsContainer = document.createElement("div");
-
-//   // Add H1 heading
-//   resultsContainer.innerHTML = `<h1>TEST RESULTS</h1>`;
-
-//   const results = scripts.map((script, index) =>
-//     test({ script, expected: expectedResults[index] })
-//   );
-
-  // const passedCount = results.filter(
-  //   (result) => result.result === "passed"
-  // ).length;
-  // const failedCount = results.filter(
-  //   (result) => result.result === "failed"
-  // ).length;
-
-  // Replace this part:
-//
 
 function testframework(scripts, expectedResults) {
   // Initialize body element
   const bodyElem = document.querySelector("body");
 
-  // Run tests and get results
   const results = scripts.map((script, index) =>
     test({ script, expected: expectedResults[index] })
   );
 
-  // Count passed and failed tests using reduce with ternary operator
   const { passed, failed } = results.reduce(
     (acc, result) => ({
       passed: result.result === "passed" ? acc.passed + 1 : acc.passed,
@@ -77,8 +52,11 @@ function testframework(scripts, expectedResults) {
     { passed: 0, failed: 0 }
   );
 
-  // Set the innerHTML of the body to show results with color coding
-  bodyElem.innerHTML = `
+  bodyElem.innerHTML = orderedList(results, passed, failed);
+}
+
+function orderedList(results, passed, failed) {
+  return `
     <div class="test-container">
       <h1>Test Results</h1>
       <ol>
@@ -103,6 +81,7 @@ function testframework(scripts, expectedResults) {
     </div>
   `;
 }
+
 
 
 
